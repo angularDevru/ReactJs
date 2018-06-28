@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.header-container {
+    display: flex;
+}
+
+body {
+    background: rgb(195, 201, 201)
+}
