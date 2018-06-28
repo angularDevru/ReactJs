@@ -8,7 +8,8 @@ import UserDetails from './components/UserDetails';
 class App extends Component {
   state = {
     empId: '',
-    dept: ''
+    dept: '',
+    reset: 0
   }
   componentDidMount = () => {
     this.props.deptList();
@@ -16,29 +17,34 @@ class App extends Component {
   getUserDetailsById = () => {
     if (this.state.empId) {
       this.props.getUserDetails(this.state.empId);
+      this.setState({ reset: 0 });
     } else {
       alert('Please select the EmployeeId')
     }
   }
 
   clearUserDetails = () => {
+    this.setState({ dept: '', empId: '', reset: 1 });
     this.props.clearUserDetails();
   }
 
   onChangedDept = (dept) => {
     this.props.onSelectingDept(dept.key);
-    this.setState({ dept: dept.key });
+    this.setState({ dept: dept.key, reset: 0 });
+
   }
   onChangedEmpId = (emp) => {
-    this.setState({ empId: emp.key });
+    this.setState({ empId: emp.key, reset: 0 });
+
   }
   render() {
     console.log(this.props.data);
 
     return (
-      <div className="container">
+      <div className="container" key={this.state.reset}>
         <div className="header-container ">
           <Dropdown
+            defaultSelectedKey={this.state.dept}
             placeHolder="Select an Department"
             label="Departments:"
             id="Departments"
@@ -47,6 +53,7 @@ class App extends Component {
             onChanged={this.onChangedDept}
           />
           <Dropdown key={this.state.dept}
+            defaultSelectedKey={this.state.empId}
             placeHolder="Select an Employee"
             label="Employee Id:"
             id="Employee"
